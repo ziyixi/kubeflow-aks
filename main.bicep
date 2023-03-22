@@ -8,21 +8,21 @@ module aksconst './AKS-Construction/bicep/main.bicep' = {
   params: {
     location: location
     resourceName: nameseed
-    enable_aad: true
-    enableAzureRBAC: true
-    registries_sku: 'Standard'
-    omsagent: true
+    enable_aad: false
+    enableAzureRBAC: false
+    registries_sku: ''
+    omsagent: false
     retentionInDays: 30
     agentCount: 4
     agentVMSize: 'Standard_D2ds_v4'
     osDiskType: 'Managed'
-    AksPaidSkuForSLA: true
+    AksPaidSkuForSLA: false
     networkPolicy: 'azure'
-    azurepolicy: 'audit'
+    azurepolicy: ''
     acrPushRolePrincipalId: signedinuser
     adminPrincipalId: signedinuser
-    AksDisableLocalAccounts: true
-    custom_vnet: true
+    AksDisableLocalAccounts: false
+    custom_vnet: false
     upgradeChannel: 'stable'
 
     //Workload Identity requires OidcIssuer to be configured on AKS
@@ -36,17 +36,17 @@ output aksOidcIssuerUrl string = aksconst.outputs.aksOidcIssuerUrl
 output aksClusterName string = aksconst.outputs.aksClusterName
 
 // deploy keyvault
-module keyVault './AKS-Construction/bicep/keyvault.bicep' = {
-  name: 'kv${nameseed}'
-  params: {
-    resourceName: 'app${nameseed}'
-    keyVaultPurgeProtection: false
-    keyVaultSoftDelete: false
-    location: location
-    privateLinks: false
-  }
-}
-output kvAppName string = keyVault.outputs.keyVaultName
+// module keyVault './AKS-Construction/bicep/keyvault.bicep' = {
+//   name: 'kv${nameseed}'
+//   params: {
+//     resourceName: 'app${nameseed}'
+//     keyVaultPurgeProtection: false
+//     keyVaultSoftDelete: false
+//     location: location
+//     privateLinks: false
+//   }
+// }
+// output kvAppName string = keyVault.outputs.keyVaultName
 
 resource kubeflowidentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-preview' = {
   name: 'kubeflow'
@@ -64,10 +64,10 @@ resource kubeflowidentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022
 output kubeflowidentityClientId string = kubeflowidentity.properties.clientId
 output kubeflowidentityId string = kubeflowidentity.id
 
-module kvSuperappRbac './KVRBAC.bicep' = {
-  name: 'kubeflowKvRbac'
-  params: {
-    appclientId: kubeflowidentity.properties.principalId
-    kvName: keyVault.outputs.keyVaultName
-  }
-}
+// module kvSuperappRbac './KVRBAC.bicep' = {
+//   name: 'kubeflowKvRbac'
+//   params: {
+//     appclientId: kubeflowidentity.properties.principalId
+//     kvName: keyVault.outputs.keyVaultName
+//   }
+// }
