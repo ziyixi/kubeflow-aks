@@ -13,8 +13,8 @@ module aksconst './AKS-Construction/bicep/main.bicep' = {
     registries_sku: ''
     omsagent: false
     retentionInDays: 30
-    agentCount: 4
-    agentVMSize: 'Standard_D2ds_v4'
+    agentCount: 2
+    agentVMSize: 'Standard_B2s'
     osDiskType: 'Managed'
     AksPaidSkuForSLA: false
     networkPolicy: 'azure'
