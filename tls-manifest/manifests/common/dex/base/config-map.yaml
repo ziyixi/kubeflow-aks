@@ -26,6 +26,6 @@ data:
       userID: "15841185641784"
     staticClients:
     - idEnv: OIDC_CLIENT_ID
-      redirectURIs: ["/authservice/oidc/callback"]
+      redirectURIs: ["/login/oidc"]
       name: 'Dex Login Application'
       secretEnv: OIDC_CLIENT_SECRET
